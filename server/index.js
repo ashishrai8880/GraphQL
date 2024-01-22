@@ -15,13 +15,23 @@ async function startServer(){
                 completed : Boolean
             }
 
+            type User {
+                id : ID!
+                name : String!
+                email : String
+            }
+
             type Query {
                 getTodos : [Todo]
+                getAllUsers : [User]
+                getUserById(id : ID!) : User
             }
         ` ,
         resolvers : {
             Query : {
                 getTodos : async ()=> {  return (await axios.get('https://jsonplaceholder.typicode.com/todos')).data } ,
+                getAllUsers : async ()=> {  return (await axios.get('https://jsonplaceholder.typicode.com/users')).data } ,
+                getUserById : async (parent , {id})=> {  return (await axios.get(`https://jsonplaceholder.typicode.com/users/${id}`)).data } ,
                 
             }
         }
